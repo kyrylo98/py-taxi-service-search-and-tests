@@ -7,10 +7,12 @@ from taxi.models import Manufacturer
 
 MANUFACTURER_FORMAT_URL = reverse("taxi:manufacturer-list")
 
+
 class PublicManufacturerListView(TestCase):
     def test_login_required(self) -> None:
         response = self.client.get(MANUFACTURER_FORMAT_URL)
         self.assertNotEqual(response.status_code, 200)
+
 
 class PrivateManufacturerListView(TestCase):
     def setUp(self) -> None:

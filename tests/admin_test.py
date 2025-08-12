@@ -4,13 +4,12 @@ from django.urls import reverse
 
 
 class AdminSiteTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.client = Client()
-        self.admin_user = (
-            get_user_model().objects.create_superuser(
+        self.admin_user = get_user_model().objects.create_superuser(
             username="admin",
             password="Testadmin123",
-        ))
+        )
         self.client.force_login(self.admin_user)
         self.driver = get_user_model().objects.create_user(
             username="driver",
@@ -18,8 +17,8 @@ class AdminSiteTest(TestCase):
             license_number="ABC12345",
         )
 
-    def test_driver_license_number(self):
-        """Test that a driver's license number is contain at driver list."""
+    def test_driver_license_number(self) -> None:
+        """Test that a driver's license number is shown in the driver list."""
         url = reverse("admin:taxi_driver_changelist")
         res = self.client.get(url)
         self.assertContains(res, self.driver.license_number)

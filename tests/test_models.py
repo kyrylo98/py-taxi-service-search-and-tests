@@ -23,7 +23,6 @@ class ManufacturerModelTest(TestCase):
                                       f" ({driver.first_name}"
                                       f" {driver.last_name})")
 
-
     def test_car_str_representation(self):
         manufacturer = Manufacturer.objects.create(
             name="Ford",
@@ -47,4 +46,3 @@ class ManufacturerModelTest(TestCase):
         self.assertEqual(str(driver.username), username)
         self.assertEqual(str(driver.license_number), license_number)
         self.assertTrue(driver.check_password(password))
-
