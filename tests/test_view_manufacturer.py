@@ -38,3 +38,18 @@ class PrivateManufacturerListView(TestCase):
                          list(manufacturer))
         self.assertTemplateUsed(response,
                                 "taxi/manufacturer_list.html")
+
+    def test_search_manufacturer_by_name(self) -> None:
+        Manufacturer.objects.create(
+            name="Mercedes",
+            country="Germany"
+        )
+        toyota = Manufacturer.objects.create(
+            name="Toyota",
+            country="Japan"
+        )
+        response = self.client.get(MANUFACTURER_FORMAT_URL, {"name": "Toy"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(toyota, response.context["manufacturer_list"])
+        for manufacturer in response.context["manufacturer_list"]:
+            self.assertIn("Toy", manufacturer.name)

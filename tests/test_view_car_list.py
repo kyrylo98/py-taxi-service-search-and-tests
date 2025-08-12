@@ -56,3 +56,21 @@ class PrivateCarListViewTest(TestCase):
             list(cars_from_db)
         )
         self.assertTemplateUsed(response, "taxi/car_list.html")
+
+    def test_search_cars_by_model(self) -> None:
+        manufacturer = Manufacturer.objects.create(
+            name="Mercedes",
+            country="Germany"
+        )
+        car1 = Car.objects.create(
+            model="Jetta",
+            manufacturer=manufacturer
+        )
+        car2 = Car.objects.create(
+            model="Mustang",
+            manufacturer=manufacturer
+        )
+        response = self.client.get(CAR_LIST_URL, {"model": "Mustang"})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(car2, response.context["car_list"])
+        self.assertNotIn(car1, response.context["car_list"])
